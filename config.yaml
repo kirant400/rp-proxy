@@ -1,0 +1,23 @@
+endpoints:
+  - name: service1
+    target_url: https://api.service1.com/v1
+    auth_type: bearer
+    auth_api: https://auth.service1.com/token
+    username: user1
+    password_enc: "ENCRYPTED_STRING"
+    allowed:
+      - path: /users
+        methods: ["GET", "POST"]
+      - path: /orders
+        methods: ["GET"]
+      - path: /products/list
+        methods: ["GET"]
+
+  - name: public
+    target_url: https://api.public.com/v2
+    auth_type: none
+    allowed:
+      - path: /ping
+        methods: ["GET"]
+      - path: /health
+        methods: ["GET"]
