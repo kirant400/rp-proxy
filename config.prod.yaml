@@ -1,7 +1,7 @@
 endpoints:
   - name: sandbox
     target_url: http://biotimedxb.com:8007
-    auth_type: Token
+    auth_type: token
     auth_api: http://biotimedxb.com:8007/api-token-auth/
     username: admin
     password_enc: "ZL6lFbyLrB1hXO/FIFUNabu2Bv5SohCGmbZO65eXGjKH"
@@ -11,13 +11,4 @@ endpoints:
       - path: /orders
         methods: ["GET"]
       - path: /products/list
-        methods: ["GET"]
-
-  - name: public
-    target_url: https://api.public.com/v2
-    auth_type: none
-    allowed:
-      - path: /ping
-        methods: ["GET"]
-      - path: /health
         methods: ["GET"]
