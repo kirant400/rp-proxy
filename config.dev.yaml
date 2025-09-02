@@ -8,7 +8,11 @@ endpoints:
     allowed:
       - path: /personnel/api/employees/
         methods: ["GET"]
-      - path: /orders
+      - path: /personnel/api/departments/
         methods: ["GET"]
-      - path: /products/list
+      - path: /personnel/api/areas/
+        methods: ["GET"]
+      - path: /personnel/api/positions/
+        methods: ["GET"]
+      - path: /iclock/api/transactions/
         methods: ["GET"]

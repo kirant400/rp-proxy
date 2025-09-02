@@ -17,10 +17,11 @@ type AllowedPath struct {
 type Endpoint struct {
 	Name        string        `json:"name" yaml:"name"`
 	TargetURL   string        `json:"target_url" yaml:"target_url"`
-	AuthType    string        `json:"auth_type" yaml:"auth_type"` // "bearer" or "none"
+	AuthType    string        `json:"auth_type" yaml:"auth_type"` // bearer, none
 	AuthAPI     string        `json:"auth_api" yaml:"auth_api"`
 	Username    string        `json:"username" yaml:"username"`
 	PasswordEnc string        `json:"password_enc" yaml:"password_enc"`
+	Token       string        `json:"token" yaml:"token"` // <- NEW: optional static token
 	Allowed     []AllowedPath `json:"allowed" yaml:"allowed"`
 }
 

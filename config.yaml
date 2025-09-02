@@ -21,3 +21,13 @@ endpoints:
         methods: ["GET"]
       - path: /health
         methods: ["GET"]
+
+  - name: staging
+    target_url: https://api.public.com/v2
+    auth_type: token
+    token: "my-static-token-here"
+    allowed:
+      - path: /ping
+        methods: ["GET"]
+      - path: /health
+        methods: ["GET"]
