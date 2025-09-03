@@ -38,13 +38,21 @@ func (am *AuthManager) GetToken(e Endpoint) (string, error) {
 		return tok.Token, nil
 	}
 
-	// Decrypt password
+	// ✅ If static token is provided in config, just use it
+	if e.Token != "" {
+		am.tokens[e.Name] = &AuthToken{
+			Token:     e.Token,
+			ExpiresAt: time.Now().Add(24 * time.Hour * 365), // treat as "non-expiring"
+		}
+		return e.Token, nil
+	}
+
+	// Otherwise, decrypt password and call auth API
 	plainPassword, err := DecryptAESGCM(am.key, e.PasswordEnc)
 	if err != nil {
 		return "", fmt.Errorf("decrypt password for %s: %w", e.Name, err)
 	}
 
-	// Call auth API
 	body := map[string]string{
 		"username": e.Username,
 		"password": plainPassword,
@@ -64,7 +72,6 @@ func (am *AuthManager) GetToken(e Endpoint) (string, error) {
 
 	respData, _ := io.ReadAll(resp.Body)
 
-	// Expect { "token": "...", "expires_in": 3600 }
 	var parsed map[string]any
 	if err := json.Unmarshal(respData, &parsed); err != nil {
 		return "", err
@@ -72,10 +79,9 @@ func (am *AuthManager) GetToken(e Endpoint) (string, error) {
 
 	token, ok := parsed["token"].(string)
 	if !ok || token == "" {
-		return "", fmt.Errorf("missing access_token in response for %s", e.Name)
+		return "", fmt.Errorf("missing token in response for %s", e.Name)
 	}
 
-	// default 1h if not provided
 	expiresIn := int64(3600)
 	if v, ok := parsed["expires_in"].(float64); ok {
 		expiresIn = int64(v)
@@ -83,7 +89,7 @@ func (am *AuthManager) GetToken(e Endpoint) (string, error) {
 
 	am.tokens[e.Name] = &AuthToken{
 		Token:     token,
-		ExpiresAt: time.Now().Add(time.Duration(expiresIn-60) * time.Second), // refresh 1 min early
+		ExpiresAt: time.Now().Add(time.Duration(expiresIn-60) * time.Second),
 	}
 
 	return token, nil
