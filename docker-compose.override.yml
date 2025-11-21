@@ -1,6 +1,6 @@
 version: "3.9"
 
 services:
-  rp-proxy:
+  rp-wrapper:
     environment:
       - ENVIRONMENT=${ENVIRONMENT:-dev}

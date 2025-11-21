@@ -1,0 +1,86 @@
+fill/departments
+dept = comma seperated ids
+dept.<id>.name = dept_name
+dept.<id>.code = dept_code
+dept.<id>.parent = parent_dept
+
+fill/areas
+area = comma seperated ids
+area.<id>.name = area_name
+area.<id>.code = area_code
+area.<id>.parent = parent_area
+
+fill/positions
+pos = comma seperated ids
+pos.<id>.name = position_name
+pos.<id>.code = position_code
+pos.<id>.parent = parent_position
+
+fill/employees
+emp = comma seperated ids
+emp.<id>.fname = first_name
+emp.<id>.code = emp_code
+emp.<id>.lname = last_name
+emp.<id>.format_name = format_name
+emp.<id>.photo = photo
+emp.<id>.full_name = full_name
+emp.<id>.dept = dept_id
+emp.<id>.pos = pos_id
+emp.<id>.areas = area_id comma seperated
+emp.<id>.doj = hire_date
+emp.<id>.gender = gender
+emp.<id>.dob = birthday
+dep.<id>.emp = comma sep employees
+area.<id>.emp = comma sep employees
+area.map.alias.<alias> =id 
+---
+"enable_attendance"
+"dev_privilege"
+            "app_status": 0,
+            "app_role": 1,
+            "update_time": "2025-10-29 17:58:15",
+"fingerprint": "-",
+            "face": "-",
+            "palm": "-",
+            "vl_face": "-",
+            "vl_palm": "-",
+            "vl_face_photo": "-",
+            "Nationality": null,
+            "time": null,
+            "woreda": null,
+            "EMP hair": null,
+            "MARITAL STATUS": null,
+            "Late": null,
+            "Early out": null,
+            "Absent": null,
+            "Stat. Mat": null
+----
+fill/trans/<previous sec>
+fill/trans/<previous sec>/<end time>
+
+attn.<emp.id>.start = punch_time if punch_state is 0
+attn.<emp.id>.end = punch_time if punch_stat is not 0
+attn.<emp.id>.status = present or absent based on the punc status, 0 when present and absent otherwise  
+
+get/attn/<station_id>
+set/attn/<station_id>
+reset/attn/<station_id>
+reset/mapping
+reset/dept
+reset/emp
+reset/pos
+reset/area
+
+mapping/<filename>
+station.<id>.dep = dept_id
+dept.<id>.station = station_id
+
+
+
+configs
+----
+urls - empl,position,area,dep,tran
+urls for call backs
+
+
+

@@ -1,17 +1,17 @@
 version: "3.9"
 
 services:
-  rp-proxy:
-    image: rp-proxy:v1.0
+  rp-wrapper:
+    image: rp-wrapper:v1.0
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: rp-proxy
+    container_name: rp-wrapper
     ports:
-      - "${PORT:-8080}:8080"
+      - "${PORT:-8081}:8081"
     environment:
       - MASTER_KEY=${MASTER_KEY}
     volumes:
       # config file will be overridden per env in override.yml
       - ./config.${ENVIRONMENT}.yaml:/app/config.yaml:ro
-    command: ["-config", "config.yaml", "-port", "8080"]
+    command: ["-config", "config.yaml", "-port", "8081"]

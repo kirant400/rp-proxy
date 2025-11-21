@@ -1,8 +1,8 @@
 # Project variables
-APP_NAME=rp-proxy
+APP_NAME=rp-wrapper
 CONFIG=config.yaml
-DOCKER_IMAGE=rp-proxy:v1.0
-PORT?=8080
+DOCKER_IMAGE=rp-wrapper:v1.0
+PORT?=8081
 ENVIRONMENT?=dev
 
 # Go commands

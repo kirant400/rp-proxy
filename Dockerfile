@@ -12,7 +12,7 @@ COPY . .
 RUN go mod download
 
 # # Build the app with optional configuration
-RUN go build -o rp-proxy .
+RUN go build -o rp-wrapper .
 
 # # We copy go files into our /workspace directory
 
@@ -30,8 +30,8 @@ WORKDIR /app
 # If your Go app needs certificates for HTTPS, copy them
 #COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /workspace/config.yaml .
-COPY --from=builder /workspace/rp-proxy .
+COPY --from=builder /workspace/rp-wrapper .
 
 EXPOSE 2345 8080
-ENTRYPOINT ["/app/rp-proxy"]
+ENTRYPOINT ["/app/rp-wrapper"]
 #CMD ["dlv", "debug", "--headless", "--listen=:2345", "--api-version=2", "--log"]
