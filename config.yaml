@@ -1,69 +1,33 @@
-redis:
-  url: "redis://localhost:6379/0"   # or redis://:password@host:port/db
-
-upstream:
-  departments: "http://localhost:8080/api/sandbox/personnel/api/departments/"
-  areas:       "http://localhost:8080/api/sandbox/personnel/api/areas/"
-  positions:   "http://localhost:8080/api/sandbox/personnel/api/positions/"
-  employees:   "http://localhost:8080/api/sandbox/personnel/api/employees/"
-  transactions: "http://localhost:8080/api/sandbox/iclock/api/transactions/?start_time={{.PrevSec}}&end_time={{.EndTime}}"
-
-attendance_callback:
-  enabled: true
-  
-  # Your system that receives attendance
-  url: "https://your-system.com/api/attendance/receive"
-  
-  # ←←← NEW: Token provider (called before every callback)
-  token_endpoint:
-    url: "https://auth.company.com/api/token"
-    method: POST
-    
-    # ── Option 1: Bearer token (most secure) ──
-    authorizationKey: "sk_live_51Hv..."   # Authorization: Bearer xxx
-    
-    # ── Option 2: Basic Auth ──
-    username: "wrapper_app"
-    password: "SuperSecret123!"
-    
-    extra_params:
-      grant_type: "client_credentials"
-      scope: "attendance.write"
-  timeout_seconds: 5
-  retry_count: 3       # will retry on network error OR 401
-
 endpoints:
-  # Data filling endpoints (employees, positions, etc.)
-  data:
-    enabled: true
-    method: POST  # or GET if you want to allow both, but we'll enforce POST
-    paths:
-      departments: "/fill/departments"
-      areas: "/fill/areas"
-      positions: "/fill/positions"
-      employees: "/fill/employees"
-      transactions: "/fill/trans/:prevsec"        # supports :prevsec and optional :endtime
+  - name: sandbox
+    target_url: http://biotimedxb.com:8007
+    auth_type: Token
+    auth_api: http://biotimedxb.com:8007/api-token-auth/
+    username: admin
+    password_enc: "ZL6lFbyLrB1hXO/FIFUNabu2Bv5SohCGmbZO65eXGjKH"
+    allowed:
+      - path: /personnel/api/employees/
+        methods: ["GET"]
+      - path: /orders
+        methods: ["GET"]
+      - path: /products/list
+        methods: ["GET"]
 
-  # Attendance-related endpoints
-  attendance:
-    enabled: true
-    method: POST
-    paths:
-      get: "/get/attn/:stationid"
-      set: "/set/attn/:stationid"
-      reset: "/reset/attn/:stationid"
+  - name: public
+    target_url: https://api.public.com/v2
+    auth_type: none
+    allowed:
+      - path: /ping
+        methods: ["GET"]
+      - path: /health
+        methods: ["GET"]
 
-  reset:
-    enabled: true
-    method: POST
-    paths:
-      mapping: "/reset/mapping"
-      departments: "/reset/departments"
-      employees: "/reset/employees"
-      positions: "/reset/positions"
-      areas: "/reset/areas"
-
-  mapping_upload:
-    enabled: true
-    method: POST
-    path: "/mapping/:filename"
+  - name: staging
+    target_url: https://api.public.com/v2
+    auth_type: token
+    token: "my-static-token-here"
+    allowed:
+      - path: /ping
+        methods: ["GET"]
+      - path: /health
+        methods: ["GET"]

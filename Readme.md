@@ -1,11 +1,11 @@
-# Wrapper for BioTime application
+# Proxy for BioTime application
 
 ## Run
 
 ```
-docker build -t rp-wrapper:v1.0 .
-docker save -o rp-wrapper_image.tar rp-wrapper:v1.0
-docker run --rm -p 8080:8080 --env-file ./.env --name rp-wrapper rp-wrapper:v1.0
+docker build -t rp-proxy:v1.0 .
+docker save -o rp-proxy_image.tar rp-proxy:v1.0
+docker run --rm -p 8080:8080 --env-file ./.env --name rp-proxy rp-proxy:v1.0
 ```
 
 - Format code
@@ -23,7 +23,7 @@ make test
 make build
 ```
 
-- Run wrapper with config
+- Run proxy with config
 ```
 make run
 ```
@@ -87,7 +87,7 @@ make docker-stop
 make run-staging ENVIRONMENT=staging
 ```
 
-- On cmd.exe, you may need:
+-On cmd.exe, you may need:
 ```
 set ENVIRONMENT=staging && make run-staging
 ```
