@@ -1,4 +1,4 @@
-# Proxy for BioTime application
+# Proxy for any application
 
 ## Run
 
